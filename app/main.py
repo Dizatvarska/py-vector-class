@@ -19,8 +19,11 @@ class Vector:
             y=self.y - other.y,
         )
 
-    def __mul__(self, other: Union[int, float, "Vector"]) -> Union[int, float, "Vector"]:
-        if isinstance(other, Union[int, float]):
+    def __mul__(
+            self,
+            other: Union[int, float, "Vector"]
+    ) -> Union[int, float, "Vector"]:
+        if isinstance(other, (int, float)):
             return Vector(
                 self.x * other,
                 self.y * other
@@ -28,7 +31,11 @@ class Vector:
         return self.x * other.x + self.y * other.y
 
     @classmethod
-    def create_vector_by_two_points(cls, start_point: tuple, end_point: tuple) -> "Vector":
+    def create_vector_by_two_points(
+            cls,
+            start_point: tuple,
+            end_point: tuple
+    ) -> "Vector":
         x = end_point[0] - start_point[0]
         y = end_point[1] - start_point[1]
         return cls(x, y)
@@ -47,7 +54,10 @@ class Vector:
             )
 
     def angle_between(self, other: "Vector") -> Union[int, float]:
-        return round(math.degrees(math.acos(self * other / ((self.x ** 2 + self.y ** 2) ** 0.5 * (other.x ** 2 + other.y ** 2) ** 0.5))))
+        self_length = (self.x ** 2 + self.y ** 2) ** 0.5
+        other_length = (other.x ** 2 + other.y ** 2) ** 0.5
+        cosine_angle = (self * other) / (self_length * other_length)
+        return round(math.degrees(math.acos(cosine_angle)))
 
     def get_angle(self) -> Union[int, float]:
         length = self.get_length()
